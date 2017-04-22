@@ -3,6 +3,9 @@ Python Class Week 10 Repo
 
 https://devops.profitbricks.com/tutorials/install-and-configure-apache-kafka-on-ubuntu-1604-1/
 
+https://dzone.com/articles/running-apache-kafka-on-windows-os
+
+
 pip install kafka-python
 
 pip install pykafka
