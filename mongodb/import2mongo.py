@@ -41,7 +41,7 @@ def main():
 
     conn = sqlite3.connect('zipcodeSMALL.db')
     c = conn.cursor()
-    for row in c.execute("SELECT * FROM ZIPCodes WHERE PrimaryRecord ='P'"):
+    for idx, row in enumerate(c.execute("SELECT * FROM ZIPCodes WHERE PrimaryRecord ='P'")):
         zipcode_doc['ZipCode'] = row[0]
         zipcode_doc['Latitude'] = row[19]
         zipcode_doc['Longitude'] = row[20]
@@ -60,6 +60,8 @@ def main():
         zipcode_doc['_id'] = ObjectId() 
         db.ZIPCodes.insert(zipcode_doc)
         print "Successfully inserted document: %s" % zipcode_doc
+    
+    print "Total of %d records were inerted." % idx
 
 if __name__ == "__main__":
     main()
