@@ -11,3 +11,4 @@ pip install pykafka
 http://activisiongamescience.github.io/2016/06/15/Kafka-Client-Benchmarking/
 
 
+pip install msgpack-python

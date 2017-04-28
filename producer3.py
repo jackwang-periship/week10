@@ -3,27 +3,19 @@ Created on Apr 21, 2017
 
 @author: jackwang
 '''
-from kafka import SimpleProducer, KafkaClient
-import avro.schema
-import io, random
-from avro.io import DatumWriter
- 
-# To send messages synchronously
-kafka = KafkaClient('localhost:9092')
-producer = SimpleProducer(kafka)
- 
-# Kafka topic
-topic = "my-topic"
- 
-# Path to user.avsc avro schema
-schema_path="user.avsc"
-schema = avro.schema.parse(open(schema_path).read())
- 
- 
-for i in xrange(10):
-    writer = avro.io.DatumWriter(schema)
-    bytes_writer = io.BytesIO()
-    encoder = avro.io.BinaryEncoder(bytes_writer)
-    writer.write({"name": "123", "favorite_color": "111", "favorite_number": random.randint(0,10)}, encoder)
-    raw_bytes = bytes_writer.getvalue()
-    producer.send_messages(topic, raw_bytes)
+from kafka import KafkaProducer
+import msgpack
+import logging
+
+
+log = logging.getLogger()
+
+# produce msgpack messages
+producer = KafkaProducer(bootstrap_servers='34.201.178.24:9092',
+                         value_serializer=msgpack.dumps)
+producer.send('msgpack-topic', {'key': 'value'})
+
+# block until all async messages are sent
+producer.flush()
+
+print "Done!"

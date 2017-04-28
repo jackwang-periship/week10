@@ -5,11 +5,17 @@ Created on Apr 21, 2017
 '''
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
+import logging
+from datetime import datetime
 
 
-producer = KafkaProducer(bootstrap_servers=['broker1:1234'])
+log = logging.getLogger()
+
+producer = KafkaProducer(bootstrap_servers='34.201.178.24:9092')
+
 # Asynchronous by default
 future = producer.send('my-topic', b'raw_bytes')
+
 # Block for 'synchronous' sends
 try:
     record_metadata = future.get(timeout=10)
@@ -26,20 +32,13 @@ print (record_metadata.offset)
 # produce keyed messages to enable hashed partitioning
 producer.send('my-topic', key=b'foo', value=b'bar')
 
-# encode objects via msgpack
-producer = KafkaProducer(value_serializer=msgpack.dumps)
-producer.send('msgpack-topic', {'key': 'value'})
-
-# produce json messages
-producer = KafkaProducer(value_serializer=lambda m: json.dumps(m).encode('ascii'))
-producer.send('json-topic', {'key': 'value'})
-
 # produce asynchronously
-for _ in range(100):
-    producer.send('my-topic', b'msg')
-    
+for i in range(100):
+    date_object = datetime.now()
+    current_time = date_object.strftime('%H:%M:%S')
+    producer.send('my-topic', key=b'iteration', value="Message Time Stamped #" + str(i))
+
 # block until all async messages are sent
 producer.flush()
+producer.close()
 
-# configure multiple retries
-producer = KafkaProducer(retries=5)

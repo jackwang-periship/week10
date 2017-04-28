@@ -3,11 +3,12 @@ Created on Apr 21, 2017
 
 @author: jackwang
 '''
-from kafka import KafkaClient, SimpleProducer, SimpleConsumer
+
+from kafka import KafkaProducer
+from datetime import datetime
 
 
-kafka = KafkaClient("localhost:9092")
-producer = SimpleProducer(kafka)
-producer.send_messages("first", "hello python!")
-producer.send_messages("first", "hello again!", "nice to meet you")
-producer = SimpleProducer(kafka, async=True)
+producer = KafkaProducer(bootstrap_servers='34.201.178.24:9092')
+producer.send("pythontest", "This is message sent from python client " + str(datetime.now().time()) )
+
+print "Done!"

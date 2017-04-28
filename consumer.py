@@ -3,10 +3,14 @@ Created on Apr 21, 2017
 
 @author: jackwang
 '''
-from kafka import KafkaClient, SimpleProducer, SimpleConsumer
+
+from kafka import KafkaConsumer
 
 
-kafka = KafkaClient("localhost:9092")
-consumer = SimpleConsumer(kafka, "python", "first")
-for msg in consumer:
-    print msg
+consumer = KafkaConsumer(bootstrap_servers='34.201.178.24:9092',
+                                 auto_offset_reset='earliest')
+consumer.subscribe(['pythontest'])
+for message in consumer:
+    print (message)
+
+print "Done!"
