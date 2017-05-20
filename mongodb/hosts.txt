@@ -8,6 +8,9 @@
 # The IP address and the host name should be separated by at least one
 # space.
 #
+# Location:
+# 	 C:\Windows\System32\drivers\etc\hosts
+#
 # Additionally, comments (such as these) may be inserted on individual
 # lines or following the machine name denoted by a '#' symbol.
 #
